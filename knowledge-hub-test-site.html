@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knowledge Hub Master Blueprint (T1-T4 Pages)</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Segoe UI",Tahoma,sans-serif;background:#f3f2f1;color:#323130;font-size:14px;line-height:1.6}
+
+    .top{background:linear-gradient(135deg,#001d44,#003f7d,#0078d4);color:#fff;padding:28px 34px 24px}
+    .top h1{font-size:30px;line-height:1.2;margin-bottom:8px}
+    .top p{font-size:14px;color:rgba(255,255,255,.84);max-width:900px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .chip{font-size:11px;border:1px solid rgba(255,255,255,.3);padding:2px 9px;border-radius:10px}
+
+    .hub-nav-wrap{position:sticky;top:0;z-index:100;background:#7a5637;box-shadow:0 2px 8px rgba(0,0,0,.22)}
+    .hub-nav{max-width:1380px;margin:0 auto;display:flex;align-items:center;gap:6px;padding:0 12px;min-height:50px}
+    .hub-logo{color:#f6e7d2;font-size:13px;font-weight:700;padding:12px 10px;white-space:nowrap}
+    .nav-item{position:relative}
+    .nav-btn{background:none;border:none;color:#f2dfc6;font-size:13px;padding:14px 12px;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent}
+    .nav-btn:hover,.nav-btn.active{color:#fff;background:rgba(255,255,255,.08);border-bottom-color:#dfc9ac}
+    .caret{margin-left:4px;font-size:10px;opacity:.85}
+    .dropdown{display:none;position:absolute;left:0;top:100%;min-width:340px;background:#fff;border:1px solid #dac8b4;border-radius:4px;box-shadow:0 10px 25px rgba(0,0,0,.2);padding:10px;z-index:150}
+    .dropdown.open{display:block}
+    .dd-title{font-size:12px;font-weight:700;color:#6f4d31;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+    .dd-link{display:block;font-size:12px;color:#7a5637;text-decoration:none;padding:6px 8px;border-radius:3px;font-weight:700}
+    .dd-link:hover{background:#f4e9dd}
+    .dd-toggle{width:100%;text-align:left;background:#fbf7f2;border:1px solid #eadbc9;border-radius:3px;padding:7px 8px;font-size:12px;font-weight:600;color:#5e432c;cursor:pointer;margin-top:6px}
+    .dd-list{display:none;margin-top:6px}
+    .dd-list.open{display:block}
+    .dd-list a{display:block;font-size:12px;color:#323130;text-decoration:none;padding:6px 8px;border-radius:3px;border-bottom:1px solid #f3f2f1}
+    .dd-list a:last-child{border-bottom:none}
+    .dd-list a:hover{background:#f7efe7;color:#7a5637}
+
+    .hub-right{margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:8px}
+    .hub-search{background:#654629;border:1px solid rgba(255,255,255,.25);color:#f2dfc6;border-radius:3px;padding:5px 9px;font-size:11px}
+    .hub-compose{background:#cbb089;border:none;color:#4f3824;border-radius:13px;padding:5px 16px;font-size:11px;font-weight:700;cursor:pointer}
+    .hub-user{display:flex;align-items:center;gap:6px;color:#f2dfc6;font-size:11px}
+    .hub-avatar{width:24px;height:24px;border-radius:50%;background:#d5b694;color:#4f3824;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+    .trail,.top,.container{margin-left:0}
+
+    .container{max-width:1380px;margin:0 auto;padding:24px 28px 54px}
+
+    .trail{max-width:1380px;margin:0 auto;padding:10px 28px;background:#fff;border-bottom:1px solid #edebe9;font-size:12px;color:#605e5c;display:flex;align-items:center;gap:6px}
+    .trail a{color:#0078d4;text-decoration:none}
+    .trail a:hover{text-decoration:underline}
+    .trail span{color:#8a8886}
+
+    .banner{background:#fff;border-left:4px solid #0078d4;border-radius:2px;padding:12px 14px;margin-bottom:18px;box-shadow:0 1.6px 3.6px rgba(0,0,0,.06);font-size:13px;color:#605e5c}
+    .banner strong{color:#323130}
+
+    .templates{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+    .tpl{background:#fff;border:1px solid #edebe9;border-radius:4px;padding:12px;box-shadow:0 1.6px 3.6px rgba(0,0,0,.06)}
+    .tpl .tt{font-size:13px;font-weight:700;margin-bottom:4px}
+    .tpl .td{font-size:12px;color:#605e5c;min-height:38px}
+    .tpl a{display:inline-block;margin-top:8px;font-size:12px;color:#0078d4;text-decoration:none;font-weight:700}
+
+    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
+    .card{background:#fff;border-radius:4px;box-shadow:0 1.6px 3.6px rgba(0,0,0,.07);overflow:hidden}
+    .card h2{background:#faf9f8;border-bottom:1px solid #edebe9;padding:10px 14px;font-size:13px;font-weight:700;color:#605e5c;text-transform:uppercase;letter-spacing:.5px}
+    .pad{padding:14px}
+
+    .tree{font-family:Consolas,"Courier New",monospace;background:#f8f8ff;border:1px solid #e1e1f2;border-radius:3px;padding:12px;white-space:pre;overflow:auto;font-size:12px;line-height:1.55;color:#323130;margin-bottom:12px}
+
+    .map-list{display:grid;grid-template-columns:1fr;gap:10px}
+    .node{border:1px solid #edebe9;border-radius:3px;padding:10px 11px}
+    .node.t1{border-left:4px solid #0078d4}
+    .node.t2{border-left:4px solid #005b99}
+    .node.t3{border-left:4px solid #5c2d91}
+    .node.t4{border-left:4px solid #008272}
+    .node .name{font-weight:700;font-size:13px;margin-bottom:3px}
+    .meta{font-size:11px;color:#605e5c;margin-bottom:6px}
+    .links{display:flex;gap:8px;flex-wrap:wrap}
+    .links a{font-size:11px;background:#f3f2f1;color:#323130;padding:3px 8px;border-radius:10px;text-decoration:none}
+    .links a:hover{background:#deecf9;color:#0078d4}
+
+    table{width:100%;border-collapse:collapse;font-size:12px}
+    th{background:#0050a0;color:#fff;text-align:left;padding:8px}
+    td{padding:8px;border-bottom:1px solid #edebe9;vertical-align:top}
+    tr:nth-child(even) td{background:#faf9f8}
+    .lvl{font-weight:700}
+    .lvl.t1{color:#0078d4}.lvl.t2{color:#005b99}.lvl.t3{color:#5c2d91}.lvl.t4{color:#008272}
+
+    .note{margin-top:12px;background:#fff9f0;border:1px solid #ffaa44;border-radius:3px;padding:10px 11px;font-size:12px;color:#605e5c}
+
+    @media(max-width:1100px){
+      .templates{grid-template-columns:repeat(2,1fr)}
+      .grid{grid-template-columns:1fr}
+    }
+    @media(max-width:650px){
+      .templates{grid-template-columns:1fr}
+      .hub-nav{overflow-x:auto}
+      .dropdown{min-width:300px}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hub-nav-wrap">
+    <div class="hub-nav">
+      <div class="hub-logo">🏢 Knowledge Hub</div>
+
+      <div class="nav-item">
+        <button class="nav-btn" data-menu="policies">Policies &amp; Governance<span class="caret">▾</span></button>
+        <div class="dropdown" id="policies">
+          <div class="dd-title">T2 Section Page</div>
+          <a class="dd-link" href="t2-domain-page.html?t2=Policies%20%26%20Governance">Open T2 Section: Policies &amp; Governance</a>
+          <button class="dd-toggle" data-list="policies-t3">Show T3 Categories ▾</button>
+          <div class="dd-list" id="policies-t3">
+            <a href="t3-category-page.html?t2=Policies%20%26%20Governance&amp;t3=Corporate%20Policies">Corporate Policies</a>
+            <a href="t3-category-page.html?t2=Policies%20%26%20Governance&amp;t3=Compliance%20%26%20Risk">Compliance &amp; Risk</a>
+            <a href="t3-category-page.html?t2=Policies%20%26%20Governance&amp;t3=Data%20%26%20Security">Data &amp; Security</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <button class="nav-btn" data-menu="processes">Processes &amp; Procedures<span class="caret">▾</span></button>
+        <div class="dropdown" id="processes">
+          <div class="dd-title">T2 Section Page</div>
+          <a class="dd-link" href="t2-domain-page.html?t2=Processes%20%26%20Procedures">Open T2 Section: Processes &amp; Procedures</a>
+          <button class="dd-toggle" data-list="processes-t3">Show T3 Categories ▾</button>
+          <div class="dd-list" id="processes-t3">
+            <a href="t3-category-page.html?t2=Processes%20%26%20Procedures&amp;t3=Operational%20Processes">Operational Processes</a>
+            <a href="t3-category-page.html?t2=Processes%20%26%20Procedures&amp;t3=HR%20Processes">HR Processes</a>
+            <a href="t3-category-page.html?t2=Processes%20%26%20Procedures&amp;t3=Finance%20Processes">Finance Processes</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <button class="nav-btn" data-menu="tools">Tools &amp; Templates<span class="caret">▾</span></button>
+        <div class="dropdown" id="tools">
+          <div class="dd-title">T2 Section Page</div>
+          <a class="dd-link" href="t2-domain-page.html?t2=Tools%20%26%20Templates">Open T2 Section: Tools &amp; Templates</a>
+          <button class="dd-toggle" data-list="tools-t3">Show T3 Categories ▾</button>
+          <div class="dd-list" id="tools-t3">
+            <a href="t3-category-page.html?t2=Tools%20%26%20Templates&amp;t3=Document%20Templates">Document Templates</a>
+            <a href="t3-category-page.html?t2=Tools%20%26%20Templates&amp;t3=Forms%20%26%20Checklists">Forms &amp; Checklists</a>
+            <a href="t3-category-page.html?t2=Tools%20%26%20Templates&amp;t3=Software%20Tools">Software Tools</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <button class="nav-btn" data-menu="projects">Projects &amp; Initiatives<span class="caret">▾</span></button>
+        <div class="dropdown" id="projects">
+          <div class="dd-title">T2 Section Page</div>
+          <a class="dd-link" href="t2-domain-page.html?t2=Projects%20%26%20Initiatives">Open T2 Section: Projects &amp; Initiatives</a>
+          <button class="dd-toggle" data-list="projects-t3">Show T3 Categories ▾</button>
+          <div class="dd-list" id="projects-t3">
+            <a href="t3-category-page.html?t2=Projects%20%26%20Initiatives&amp;t3=Active%20Projects">Active Projects</a>
+            <a href="t3-category-page.html?t2=Projects%20%26%20Initiatives&amp;t3=Completed%20Projects">Completed Projects</a>
+            <a href="t3-category-page.html?t2=Projects%20%26%20Initiatives&amp;t3=Change%20Initiatives">Change Initiatives</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <button class="nav-btn" data-menu="learning">Learning &amp; Development<span class="caret">▾</span></button>
+        <div class="dropdown" id="learning">
+          <div class="dd-title">T2 Section Page</div>
+          <a class="dd-link" href="t2-domain-page.html?t2=Learning%20%26%20Development">Open T2 Section: Learning &amp; Development</a>
+          <button class="dd-toggle" data-list="learning-t3">Show T3 Categories ▾</button>
+          <div class="dd-list" id="learning-t3">
+            <a href="t3-category-page.html?t2=Learning%20%26%20Development&amp;t3=Training%20Materials">Training Materials</a>
+            <a href="t3-category-page.html?t2=Learning%20%26%20Development&amp;t3=How-To%20Guides">How-To Guides</a>
+            <a href="t3-category-page.html?t2=Learning%20%26%20Development&amp;t3=Best%20Practices">Best Practices</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <button class="nav-btn" data-menu="community">Community &amp; Support<span class="caret">▾</span></button>
+        <div class="dropdown" id="community">
+          <div class="dd-title">T2 Section Page</div>
+          <a class="dd-link" href="t2-domain-page.html?t2=Community%20%26%20Support">Open T2 Section: Community &amp; Support</a>
+          <button class="dd-toggle" data-list="community-t3">Show T3 Categories ▾</button>
+          <div class="dd-list" id="community-t3">
+            <a href="t3-category-page.html?t2=Community%20%26%20Support&amp;t3=FAQs">FAQs</a>
+            <a href="t3-category-page.html?t2=Community%20%26%20Support&amp;t3=Support%20Contacts">Support Contacts</a>
+            <a href="t3-category-page.html?t2=Community%20%26%20Support&amp;t3=User%20Groups">User Groups</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hub-right">
+        <div class="hub-search">Search (Shift + S)</div>
+        <button class="hub-compose">+ Compose</button>
+        <div class="hub-user"><span class="hub-avatar">KW</span> Kevin</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trail">
+    <a href="knowledge-hub-test-site.html">Home</a>
+    <span>›</span>
+    <span>Knowledge Hub Master Blueprint</span>
+  </div>
+
+  <div class="top">
+    <h1>Knowledge Hub Master Blueprint</h1>
+    <p>This page maps your exact T1-T4 information architecture into clickable page templates. T1 is the single master hub site, and T2/T3/T4 are page layers beneath it.</p>
+    <div class="chips">
+      <span class="chip">T1: 1 Node</span>
+      <span class="chip">T2: 6 Section Pages</span>
+      <span class="chip">T3: 18 Categories</span>
+      <span class="chip">T4: Example Content Pages Included</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="banner"><strong>How to use this:</strong> Start from the T1 master hub template, then apply the T2 section page template, T3 category page template, and T4 content page template across your hierarchy. This keeps the model page-based and consistent.</div>
+
+    <div class="templates">
+      <div class="tpl">
+        <div class="tt">🔷 T1 Template</div>
+        <div class="td">Hub front-door, global nav owner, branding/search scope/rollups.</div>
+        <a href="t1-hub-site.html">Open T1 Wireframe →</a>
+      </div>
+      <div class="tpl">
+        <div class="tt">🔷 T2 Template</div>
+        <div class="td">Section routing page, card links to T3 category pages, light summary modules.</div>
+        <a href="t2-domain-page.html">Open T2 Section Page Template →</a>
+      </div>
+      <div class="tpl">
+        <div class="tt">🔷 T3 Template</div>
+        <div class="td">Category page, standardized card-based routing to T4 content pages.</div>
+        <a href="t3-category-page.html">Open T3 Category Page Template →</a>
+      </div>
+      <div class="tpl">
+        <div class="tt">🔷 T4 Template</div>
+        <div class="td">Final content page/document with metadata, no child structure beneath.</div>
+        <a href="t4-leaf-content.html">Open T4 Content Page Template →</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Exact Hierarchy (Your Structure)</h2>
+        <div class="pad">
+          <div class="tree">T1: Knowledge Hub
+│
+├─ T2: Policies & Governance
+│  ├─ T3: Corporate Policies
+│  │  ├─ T4: Code of Conduct
+│  │  ├─ T4: Remote Work Policy
+│  │  └─ T4: Data Privacy Policy
+│  ├─ T3: Compliance & Risk
+│  └─ T3: Data & Security
+│
+├─ T2: Processes & Procedures
+│  ├─ T3: Operational Processes
+│  ├─ T3: HR Processes
+│  │  ├─ T4: Recruitment Process
+│  │  ├─ T4: Onboarding Workflow
+│  │  └─ T4: Offboarding Checklist
+│  └─ T3: Finance Processes
+│
+├─ T2: Tools & Templates
+│  ├─ T3: Document Templates
+│  ├─ T3: Forms & Checklists
+│  └─ T3: Software Tools
+│
+├─ T2: Projects & Initiatives
+│  ├─ T3: Active Projects
+│  ├─ T3: Completed Projects
+│  └─ T3: Change Initiatives
+│
+├─ T2: Learning & Development
+│  ├─ T3: Training Materials
+│  ├─ T3: How-To Guides
+│  └─ T3: Best Practices
+│
+└─ T2: Community & Support
+   ├─ T3: FAQs
+   ├─ T3: Support Contacts
+   └─ T3: User Groups</div>
+
+          <div class="map-list">
+            <div class="node t1">
+              <div class="name">T1: Knowledge Hub</div>
+              <div class="meta">Single top-level hub site owning global navigation, branding and search scope.</div>
+              <div class="links"><a href="t1-hub-site.html">Apply T1 template</a></div>
+            </div>
+            <div class="node t2">
+              <div class="name">T2 Section Pages (6 pages)</div>
+              <div class="meta">Policies & Governance, Processes & Procedures, Tools & Templates, Projects & Initiatives, Learning & Development, Community & Support.</div>
+              <div class="links"><a href="t2-domain-page.html">Apply T2 template to all 6 section pages</a></div>
+            </div>
+            <div class="node t3">
+              <div class="name">T3 Categories (18 pages)</div>
+              <div class="meta">Standardized category pages with card routing to leaf content.</div>
+              <div class="links"><a href="t3-category-page.html">Apply T3 template to each category</a></div>
+            </div>
+            <div class="node t4">
+              <div class="name">T4 Final Content (Pages/Documents/Libraries)</div>
+              <div class="meta">Code of Conduct, Data Privacy, Remote Work, Recruitment Process, Onboarding Workflow, Offboarding Checklist, and all other final destinations.</div>
+              <div class="links"><a href="t4-leaf-content.html">Apply T4 template to each leaf node</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Template Assignment Matrix</h2>
+        <div class="pad">
+          <table>
+            <thead>
+              <tr><th>Level</th><th>What It Is</th><th>Template</th><th>Count</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="lvl t1">T1</td><td>Hub entry point</td><td><a href="t1-hub-site.html">T1 Hub Wireframe</a></td><td>1</td></tr>
+              <tr><td class="lvl t2">T2</td><td>Section navigation pages</td><td><a href="t2-domain-page.html">T2 Section Page Wireframe</a></td><td>6</td></tr>
+              <tr><td class="lvl t3">T3</td><td>Category routing pages</td><td><a href="t3-category-page.html">T3 Category Wireframe</a></td><td>18</td></tr>
+              <tr><td class="lvl t4">T4</td><td>Final content pages/docs</td><td><a href="t4-leaf-content.html">T4 Content Page Wireframe</a></td><td>Variable</td></tr>
+            </tbody>
+          </table>
+
+          <div class="note">
+            <strong>Deployment approach:</strong> build 4 master page templates in SharePoint, then clone each by tier and only change title, metadata, and links.
+            This avoids design drift and keeps your IA maintainable.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var menuButtons = document.querySelectorAll(".nav-btn[data-menu]");
+      var dropdowns = document.querySelectorAll(".dropdown");
+      var toggles = document.querySelectorAll(".dd-toggle[data-list]");
+
+      function closeAll() {
+        dropdowns.forEach(function (d) { d.classList.remove("open"); });
+        menuButtons.forEach(function (b) { b.classList.remove("active"); });
+      }
+
+      menuButtons.forEach(function (btn) {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var id = btn.getAttribute("data-menu");
+          var target = document.getElementById(id);
+          var isOpen = target.classList.contains("open");
+          closeAll();
+          if (!isOpen) {
+            target.classList.add("open");
+            btn.classList.add("active");
+          }
+        });
+      });
+
+      toggles.forEach(function (toggle) {
+        toggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var list = document.getElementById(toggle.getAttribute("data-list"));
+          var opened = list.classList.toggle("open");
+          toggle.textContent = opened ? "Hide T3 Categories ▴" : "Show T3 Categories ▾";
+        });
+      });
+
+      document.addEventListener("click", closeAll);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T2 — Policies & Governance Section Page · SharePoint Wireframe</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", Tahoma, sans-serif; font-size: 14px; background: #f3f2f1; color: #323130; }
+
+    /* TIER RIBBON */
+    .tier-ribbon {
+      background: #001d44; color: #fff; text-align: center; padding: 7px;
+      font-size: 11px; letter-spacing: .8px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 24px;
+    }
+    .tier-badge { display: inline-flex; align-items: center; gap: 8px; background: #005b99; padding: 3px 14px; border-radius: 12px; font-size: 12px; }
+    .tier-nav { display: flex; gap: 0; }
+    .tier-nav a { color: rgba(255,255,255,.55); font-size: 11px; padding: 2px 10px; border-right: 1px solid rgba(255,255,255,.15); text-decoration: none; }
+    .tier-nav a:last-child { border-right: none; }
+    .tier-nav a.active { color: #fff; font-weight: 700; }
+    .tier-nav a:hover { color: #fff; }
+
+    /* ANNOTATIONS */
+    .ann { position: relative; outline: 2px dashed #ffaa44; outline-offset: 3px; margin-bottom: 2px; }
+    .ann .lbl { position: absolute; top: -13px; left: 8px; z-index: 20; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; background: #ffaa44; color: #fff; padding: 1px 7px; border-radius: 3px; white-space: nowrap; pointer-events: none; }
+    .ann.blue   { outline-color: #0078d4; } .ann.blue   .lbl { background: #0078d4; }
+    .ann.green  { outline-color: #107c41; } .ann.green  .lbl { background: #107c41; }
+    .ann.teal   { outline-color: #008272; } .ann.teal   .lbl { background: #008272; }
+    .ann.purple { outline-color: #5c2d91; } .ann.purple .lbl { background: #5c2d91; }
+    .ann.slate  { outline-color: #605e5c; } .ann.slate  .lbl { background: #605e5c; }
+    .ann.indigo { outline-color: #4f6bed; } .ann.indigo .lbl { background: #4f6bed; }
+    .ann.red    { outline-color: #a4262c; } .ann.red    .lbl { background: #a4262c; }
+
+    /* M365 SUITE BAR */
+    .m365 { background: #0078d4; height: 40px; display: flex; align-items: center; padding: 0 14px; gap: 12px; position: sticky; top: 0; z-index: 200; }
+    .waffle { display: grid; grid-template-columns: repeat(3,6px); gap: 2px; cursor: pointer; }
+    .waffle span { background: #fff; border-radius: 1px; height: 6px; display: block; }
+    .suite-logo { color: #fff; font-size: 14px; font-weight: 600; }
+    .suite-search { flex: 1; max-width: 420px; margin: 0 auto; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); border-radius: 3px; height: 28px; display: flex; align-items: center; padding: 0 10px; gap: 6px; color: rgba(255,255,255,.8); font-size: 12px; cursor: text; }
+    .suite-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+    .s-btn { background: none; border: none; cursor: pointer; color: #fff; font-size: 17px; }
+    .avatar { width: 30px; height: 30px; border-radius: 50%; background: #fff; color: #0078d4; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid rgba(255,255,255,.5); }
+
+    /* HUB NAV — inherited from T1 */
+    .hub-nav-bar { background: #001d44; height: 44px; display: flex; align-items: center; padding: 0 20px; position: sticky; top: 40px; z-index: 190; }
+    .hub-brand { color: rgba(255,255,255,.7); font-size: 13px; font-weight: 600; margin-right: 24px; white-space: nowrap; }
+    .hub-brand a { color: rgba(255,255,255,.7); text-decoration: none; }
+    .hub-brand a:hover { color: #fff; }
+    .hub-badge { background: rgba(255,255,255,.15); color: rgba(255,255,255,.7); font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 10px; letter-spacing: .5px; margin-left: 6px; }
+    .hub-links { display: flex; }
+    .hub-link { padding: 12px 13px; font-size: 13px; color: rgba(255,255,255,.65); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+    .hub-link:hover { color: #fff; border-bottom-color: rgba(255,255,255,.3); }
+    .hub-link.active { color: #fff; border-bottom-color: #4fc3f7; font-weight: 600; }
+
+    /* SECTION PAGE TOP NAV — local navigation for this page */
+    .site-nav { background: #fff; border-bottom: 1px solid #edebe9; height: 46px; display: flex; align-items: center; padding: 0 20px; position: sticky; top: 84px; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .site-name { font-size: 15px; font-weight: 600; color: #0078d4; margin-right: 24px; }
+    .site-links { display: flex; }
+    .site-link { padding: 13px 12px; font-size: 13px; color: #323130; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+    .site-link.active { color: #0078d4; border-bottom-color: #0078d4; }
+    .site-link:hover { color: #0078d4; }
+    .site-nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .btn { border: 1px solid #c8c6c4; background: #fff; border-radius: 2px; padding: 4px 12px; font-size: 12px; cursor: pointer; font-family: inherit; color: #323130; }
+    .btn:hover { background: #f3f2f1; }
+    .btn.primary { background: #0078d4; color: #fff; border-color: #0078d4; }
+    .btn.primary:hover { background: #106ebe; }
+
+    /* PAGE HEADER */
+    .page-header {
+      background: linear-gradient(135deg, #002f6c 0%, #005b99 60%, #0078d4 100%);
+      padding: 36px 52px 32px;
+      position: relative; overflow: hidden;
+    }
+    .page-header-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(0,120,212,.25) 0%, transparent 65%);
+    }
+    .breadcrumb { font-size: 12px; color: rgba(255,255,255,.6); display: flex; align-items: center; gap: 6px; margin-bottom: 12px; position: relative; z-index: 1; }
+    .breadcrumb a { color: rgba(255,255,255,.6); text-decoration: none; }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb span { opacity: .5; }
+    .header-body { display: flex; align-items: flex-start; gap: 20px; position: relative; z-index: 1; }
+    .header-icon { width: 52px; height: 52px; border-radius: 10px; background: rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; border: 1px solid rgba(255,255,255,.2); }
+    .header-text h1 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .header-desc { font-size: 14px; color: rgba(255,255,255,.8); line-height: 1.6; max-width: 640px; margin-bottom: 12px; }
+    .header-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .htag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,.3); color: rgba(255,255,255,.85); }
+    .htag.t2 { background: rgba(0,91,153,.5); }
+    .htag.hub { background: rgba(0,29,68,.4); }
+    .htag.cat { background: rgba(92,45,145,.4); }
+
+    /* CANVAS */
+    .canvas { padding: 28px 52px 56px; max-width: 1300px; margin: 0 auto; }
+
+    /* SECTION PAGE STAT BAR */
+    .stat-bar { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: #edebe9; border-radius: 2px; overflow: hidden; margin-bottom: 24px; box-shadow: 0 1.6px 3.6px rgba(0,0,0,.07); }
+    .stat-cell { background: #fff; padding: 16px 20px; text-align: center; }
+    .stat-num { font-size: 26px; font-weight: 800; color: #0078d4; }
+    .stat-label { font-size: 11px; color: #605e5c; margin-top: 2px; }
+
+    /* WEB PART */
+    .wp { background: #fff; border-radius: 2px; margin-bottom: 20px; box-shadow: 0 1.6px 3.6px rgba(0,0,0,.07), 0 .3px .9px rgba(0,0,0,.05); overflow: hidden; }
+    .wp-header { padding: 14px 20px 10px; border-bottom: 1px solid #f3f2f1; display: flex; align-items: center; justify-content: space-between; }
+    .wp-title { font-size: 16px; font-weight: 600; color: #323130; }
+    .wp-see-all { font-size: 12px; color: #0078d4; cursor: pointer; }
+    .wp-body { padding: 16px 20px 20px; }
+
+    /* T3 CATEGORY CARDS — the main purpose of a T2 section page */
+    .t3-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; padding: 18px 20px 24px; }
+    .t3-card {
+      border: 1px solid #edebe9;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow .15s, transform .1s;
+      display: flex; flex-direction: column;
+    }
+    .t3-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,.12); transform: translateY(-2px); }
+    .t3-card-banner {
+      height: 80px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 18px;
+    }
+    .t3-card-icon { font-size: 32px; }
+    .t3-card-count { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.8); background: rgba(0,0,0,.2); padding: 3px 8px; border-radius: 10px; }
+    .t3-card-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+    .t3-card-title { font-size: 15px; font-weight: 700; color: #323130; margin-bottom: 6px; }
+    .t3-card-desc { font-size: 12px; color: #605e5c; line-height: 1.55; flex: 1; margin-bottom: 10px; }
+    .t3-card-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+    .t3-tag { font-size: 10px; background: #f3f2f1; color: #605e5c; padding: 2px 7px; border-radius: 10px; }
+    .t3-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #f3f2f1; }
+    .t3-card-meta { font-size: 11px; color: #8a8886; }
+    .t3-card-link { font-size: 12px; font-weight: 700; color: #0078d4; }
+
+    /* FEATURED CONTENT STRIP */
+    .featured-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; padding: 14px 20px 20px; }
+    .featured-item { border: 1px solid #edebe9; border-radius: 2px; padding: 12px 14px; cursor: pointer; display: flex; gap: 10px; align-items: flex-start; }
+    .featured-item:hover { background: #f8f8ff; border-color: #c8c6c4; }
+    .fi-icon { font-size: 22px; flex-shrink: 0; }
+    .fi-title { font-size: 13px; font-weight: 600; color: #0078d4; margin-bottom: 3px; line-height: 1.3; }
+    .fi-meta  { font-size: 11px; color: #8a8886; }
+    .fi-type  { font-size: 10px; font-weight: 600; color: #605e5c; background: #f3f2f1; padding: 1px 6px; border-radius: 10px; margin-top: 5px; display: inline-block; }
+
+    /* TWO-COL LOWER */
+    .two-col { display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; }
+
+    /* RECENT UPDATES LIST */
+    .update-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #f3f2f1; }
+    .update-item:last-child { border-bottom: none; }
+    .update-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .update-text { font-size: 13px; color: #323130; line-height: 1.45; }
+    .update-text .cat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
+    .update-meta { font-size: 11px; color: #8a8886; margin-top: 2px; }
+    .update-badge { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+    .badge-new     { background: #dff6dd; color: #107c41; }
+    .badge-updated { background: #deecf9; color: #0078d4; }
+    .badge-review  { background: #fff4ce; color: #a37700; }
+
+    /* SIDEBAR WIDGETS */
+    .widget { background: #fff; border-radius: 2px; margin-bottom: 16px; box-shadow: 0 1.6px 3.6px rgba(0,0,0,.07); overflow: hidden; }
+    .widget-header { background: #faf9f8; border-bottom: 1px solid #edebe9; padding: 9px 14px; font-size: 12px; font-weight: 700; color: #605e5c; text-transform: uppercase; letter-spacing: .5px; }
+    .widget-body { padding: 12px 14px; }
+
+    /* SECTION OWNER */
+    .owner-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .ow-av { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; }
+    .ow-name { font-size: 13px; font-weight: 600; color: #323130; }
+    .ow-role { font-size: 11px; color: #605e5c; }
+    .ow-btns { display: flex; gap: 6px; margin-top: 8px; }
+    .ow-btn { flex: 1; text-align: center; border: 1px solid #edebe9; background: #fff; border-radius: 2px; padding: 5px 4px; font-size: 11px; cursor: pointer; font-family: inherit; }
+    .ow-btn:hover { background: #f3f2f1; }
+
+    /* QUICK LINKS SIDEBAR */
+    .ql-item { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid #f3f2f1; font-size: 12px; cursor: pointer; }
+    .ql-item:last-child { border-bottom: none; }
+    .ql-item:hover { color: #0078d4; }
+    .ql-item-icon { font-size: 14px; flex-shrink: 0; }
+
+    /* ACTIVITY */
+    .act-item { display: flex; gap: 8px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid #f3f2f1; font-size: 11px; color: #605e5c; }
+    .act-item:last-child { border-bottom: none; }
+    .act-av { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #fff; }
+    .act-text span { color: #323130; font-weight: 600; }
+    .act-time { font-size: 10px; color: #8a8886; }
+
+    /* BUILDER NOTES */
+    .notes { background: #fff9f0; border: 1px solid #ffaa44; border-radius: 4px; padding: 16px 20px; margin-top: 32px; }
+    .notes h2 { font-size: 13px; font-weight: 700; color: #a37700; margin-bottom: 10px; }
+    .notes ul { padding-left: 16px; }
+    .notes li { font-size: 12px; color: #605e5c; margin-bottom: 5px; line-height: 1.5; }
+    .notes li strong { color: #323130; }
+  </style>
+</head>
+<body>
+
+<!-- TIER RIBBON -->
+<div class="tier-ribbon">
+  <span class="tier-badge">🔷 T2 — Section Page · Policies &amp; Governance · Navigation Layer → T3 Category Pages</span>
+  <div class="tier-nav">
+    <a href="t1-hub-site.html">T1 Hub</a>
+    <a href="t2-domain-page.html" class="active">T2 Section Page</a>
+    <a href="t3-category-page.html">T3 Category Page</a>
+    <a href="t4-leaf-content.html">T4 Content Page</a>
+  </div>
+</div>
+
+<!-- M365 SUITE BAR -->
+<div class="ann blue" style="margin-bottom:0;">
+  <span class="lbl">M365 Suite Bar</span>
+  <div class="m365">
+    <div class="waffle"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <span class="suite-logo">Microsoft 365</span>
+    <div class="suite-search">🔍&nbsp; Search across Microsoft 365</div>
+    <div class="suite-right">
+      <button class="s-btn">❓</button><button class="s-btn">⚙</button><button class="s-btn">🔔</button>
+      <div class="avatar">JD</div>
+    </div>
+  </div>
+</div>
+
+<!-- HUB NAV — INHERITED from T1 master hub, appears across linked page layers -->
+<div class="ann" style="outline-color:#001d44; margin-bottom:0;">
+  <span class="lbl" style="background:#001d44;">HUB NAVIGATION — Inherited from T1 Hub · Managed centrally on the master hub page</span>
+  <nav class="hub-nav-bar">
+    <span class="hub-brand">
+      <a href="t1-hub-site.html">🏢 Contoso Knowledge Hub</a>
+      <span class="hub-badge">HUB</span>
+    </span>
+    <div class="hub-links">
+      <span class="hub-link active">Policies &amp; Governance</span>
+      <span class="hub-link">Processes &amp; Procedures</span>
+      <span class="hub-link">Tools &amp; Templates</span>
+      <span class="hub-link">Projects &amp; Initiatives</span>
+      <span class="hub-link">Learning &amp; Development</span>
+    </div>
+  </nav>
+</div>
+
+<!-- SECTION PAGE TOP NAV — local navigation for this T2 page -->
+<div class="ann blue" style="margin-bottom:0;">
+  <span class="lbl">Section Page Navigation — Local nav for this T2 page</span>
+  <nav class="site-nav">
+    <span class="site-name">📋 Policies &amp; Governance</span>
+    <div class="site-links">
+      <span class="site-link active">Home</span>
+      <span class="site-link">Corporate Policies</span>
+      <span class="site-link">Compliance &amp; Risk</span>
+      <span class="site-link">Data &amp; Security</span>
+      <span class="site-link">HR Policies</span>
+      <span class="site-link">All Policies A–Z</span>
+    </div>
+    <div class="site-nav-right">
+      <button class="btn">☆ Follow</button>
+      <button class="btn primary">↗ Share</button>
+    </div>
+  </nav>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="ann blue" style="margin-bottom:0;">
+  <span class="lbl">Page Header — Communication page header zone · Title, description, section tags</span>
+  <div class="page-header">
+    <div class="page-header-bg"></div>
+    <div class="breadcrumb">
+      <a href="knowledge-hub-test-site.html">Home</a>
+      <span>›</span>
+      <a href="t1-hub-site.html">Knowledge Hub</a>
+      <span>›</span>
+      <span id="crumb-t2">Policies &amp; Governance</span>
+    </div>
+    <div class="header-body">
+      <div class="header-icon">📋</div>
+      <div class="header-text">
+        <h1>Policies &amp; Governance</h1>
+        <div class="header-desc">This T2 section page routes users to policy categories. Use it as a clean navigation layer between the T1 hub and T3 category pages.</div>
+        <div class="header-tags">
+          <span class="htag t2">🔷 T2 Section Page</span>
+          <span class="htag hub">Hub: Contoso Knowledge Hub</span>
+          <span class="htag cat">6 Categories · 52 Documents</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CANVAS -->
+<div class="canvas">
+
+  <!-- STAT BAR -->
+  <div class="ann teal" style="margin-bottom:20px;">
+    <span class="lbl" style="background:#008272;">Text / Image Web Parts used as stat strip — shows section-level summary figures</span>
+    <div class="stat-bar">
+      <div class="stat-cell"><div class="stat-num">6</div><div class="stat-label">Policy Categories (T3 Pages)</div></div>
+      <div class="stat-cell"><div class="stat-num">52</div><div class="stat-label">Active Policy Documents</div></div>
+      <div class="stat-cell"><div class="stat-num">4</div><div class="stat-label">Due for Review (next 30 days)</div></div>
+      <div class="stat-cell"><div class="stat-num">100%</div><div class="stat-label">Policies with Named Owners</div></div>
+    </div>
+  </div>
+
+  <!-- T3 CATEGORY CARDS — the primary purpose of this section page -->
+  <div class="ann green" style="margin-bottom:20px;">
+    <span class="lbl" style="background:#107c41;">Quick Links Web Part (Tiles layout) — Each card links to a T3 Category Page · This is the PRIMARY navigation function of a T2 section page</span>
+    <div class="wp">
+      <div class="wp-header">
+        <span class="wp-title">📂 Browse by Category</span>
+        <span class="wp-see-all">View all policies A–Z →</span>
+      </div>
+      <div class="t3-grid">
+
+        <!-- T3 CARD 1 -->
+        <div class="t3-card">
+          <div class="t3-card-banner" style="background: linear-gradient(135deg,#003f7d,#0078d4);">
+            <span class="t3-card-icon">🏛️</span>
+            <span class="t3-card-count">12 policies</span>
+          </div>
+          <div class="t3-card-body">
+            <div class="t3-card-title">Corporate Policies</div>
+            <div class="t3-card-desc">Company-wide behavioural and operational policies covering conduct, ethics, whistleblowing and governance frameworks.</div>
+            <div class="t3-card-tags">
+              <span class="t3-tag">Code of Conduct</span>
+              <span class="t3-tag">Ethics</span>
+              <span class="t3-tag">Whistleblowing</span>
+            </div>
+            <div class="t3-card-footer">
+              <span class="t3-card-meta">Owner: CEO Office · All Staff</span>
+              <span class="t3-card-link">Explore →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- T3 CARD 2 -->
+        <div class="t3-card">
+          <div class="t3-card-banner" style="background: linear-gradient(135deg,#4f0a5c,#8764b8);">
+            <span class="t3-card-icon">⚖️</span>
+            <span class="t3-card-count">9 policies</span>
+          </div>
+          <div class="t3-card-body">
+            <div class="t3-card-title">Compliance &amp; Risk</div>
+            <div class="t3-card-desc">Regulatory compliance, risk management, audit frameworks and legal obligations applicable across the organisation.</div>
+            <div class="t3-card-tags">
+              <span class="t3-tag">UK GDPR</span>
+              <span class="t3-tag">Risk Register</span>
+              <span class="t3-tag">Audit</span>
+            </div>
+            <div class="t3-card-footer">
+              <span class="t3-card-meta">Owner: Compliance Team · All Staff</span>
+              <span class="t3-card-link">Explore →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- T3 CARD 3 -->
+        <div class="t3-card">
+          <div class="t3-card-banner" style="background: linear-gradient(135deg,#0a3d4f,#008272);">
+            <span class="t3-card-icon">🔒</span>
+            <span class="t3-card-count">8 policies</span>
+          </div>
+          <div class="t3-card-body">
+            <div class="t3-card-title">Data &amp; Security</div>
+            <div class="t3-card-desc">Data privacy, information security, acceptable use, breach management, and cyber security policies and standards.</div>
+            <div class="t3-card-tags">
+              <span class="t3-tag">Data Privacy</span>
+              <span class="t3-tag">IT Security</span>
+              <span class="t3-tag">BYOD</span>
+            </div>
+            <div class="t3-card-footer">
+              <span class="t3-card-meta">Owner: IT &amp; DPO · All Staff</span>
+              <span class="t3-card-link">Explore →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- T3 CARD 4 -->
+        <div class="t3-card">
+          <div class="t3-card-banner" style="background: linear-gradient(135deg,#3d2900,#a37700);">
+            <span class="t3-card-icon">🤝</span>
+            <span class="t3-card-count">11 policies</span>
+          </div>
+          <div class="t3-card-body">
+            <div class="t3-card-title">HR Policies</div>
+            <div class="t3-card-desc">People policies covering employment conditions, flexible working, leave, performance, disciplinary and grievance procedures.</div>
+            <div class="t3-card-tags">
+              <span class="t3-tag">Remote Work</span>
+              <span class="t3-tag">Leave</span>
+              <span class="t3-tag">Performance</span>
+            </div>
+            <div class="t3-card-footer">
+              <span class="t3-card-meta">Owner: HR Team · All Employees</span>
+              <span class="t3-card-link">Explore →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- T3 CARD 5 -->
+        <div class="t3-card">
+          <div class="t3-card-banner" style="background: linear-gradient(135deg,#1a3d00,#107c41);">
+            <span class="t3-card-icon">🌱</span>
+            <span class="t3-card-count">6 policies</span>
+          </div>
+          <div class="t3-card-body">
+            <div class="t3-card-title">Health, Safety &amp; Environment</div>
+            <div class="t3-card-desc">Workplace safety, environmental responsibilities, wellbeing policies and incident reporting frameworks.</div>
+            <div class="t3-card-tags">
+              <span class="t3-tag">H&amp;S</span>
+              <span class="t3-tag">Wellbeing</span>
+              <span class="t3-tag">Environmental</span>
+            </div>
+            <div class="t3-card-footer">
+              <span class="t3-card-meta">Owner: Operations · All Staff</span>
+              <span class="t3-card-link">Explore →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- T3 CARD 6 -->
+        <div class="t3-card">
+          <div class="t3-card-banner" style="background: linear-gradient(135deg,#3d001a,#a4262c);">
+            <span class="t3-card-icon">📣</span>
+            <span class="t3-card-count">6 policies</span>
+          </div>
+          <div class="t3-card-body">
+            <div class="t3-card-title">Communications &amp; Media</div>
+            <div class="t3-card-desc">Social media, external communications, media relations, brand usage guidelines and spokesperson policies.</div>
+            <div class="t3-card-tags">
+              <span class="t3-tag">Social Media</span>
+              <span class="t3-tag">Brand</span>
+              <span class="t3-tag">Press</span>
+            </div>
+            <div class="t3-card-footer">
+              <span class="t3-card-meta">Owner: Marketing · All Staff</span>
+              <span class="t3-card-link">Explore →</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED / PINNED ITEMS -->
+  <div class="ann purple" style="margin-bottom:20px;">
+    <span class="lbl" style="background:#5c2d91;">Highlighted Content Web Part — Compact list layout · Pinned/Featured T4 content pages surfaced at section level</span>
+    <div class="wp">
+      <div class="wp-header"><span class="wp-title">📌 Frequently Accessed Policies</span><span class="wp-see-all">All policies →</span></div>
+      <div class="featured-strip">
+        <div class="featured-item">
+          <div class="fi-icon">📋</div>
+          <div>
+            <div class="fi-title">Code of Conduct</div>
+            <div class="fi-meta">Active · All Staff · v2.1</div>
+            <span class="fi-type">📄 T4 Policy Page</span>
+          </div>
+        </div>
+        <div class="featured-item">
+          <div class="fi-icon">🔒</div>
+          <div>
+            <div class="fi-title">Data Privacy Policy</div>
+            <div class="fi-meta">Active · All Staff · v3.1</div>
+            <span class="fi-type">📄 T4 Policy Page</span>
+          </div>
+        </div>
+        <div class="featured-item">
+          <div class="fi-icon">🏠</div>
+          <div>
+            <div class="fi-title">Remote Work Policy</div>
+            <div class="fi-meta">Updated Mar 2026 · Employees</div>
+            <span class="fi-type">📄 T4 Policy Page</span>
+          </div>
+        </div>
+        <div class="featured-item">
+          <div class="fi-icon">⚠️</div>
+          <div>
+            <div class="fi-title">Incident Reporting Policy</div>
+            <div class="fi-meta">Active · All Staff · v1.4</div>
+            <span class="fi-type">📄 T4 Policy Page</span>
+          </div>
+        </div>
+        <div class="featured-item">
+          <div class="fi-icon">🤝</div>
+          <div>
+            <div class="fi-title">Equality &amp; Diversity Policy</div>
+            <div class="fi-meta">Active · All Staff · v2.0</div>
+            <span class="fi-type">📄 T4 Policy Page</span>
+          </div>
+        </div>
+        <div class="featured-item">
+          <div class="fi-icon">💻</div>
+          <div>
+            <div class="fi-title">IT Acceptable Use Policy</div>
+            <div class="fi-meta">Active · All Staff · v4.0</div>
+            <span class="fi-type">📄 T4 Policy Page</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TWO COLUMN: RECENT UPDATES + SIDEBAR -->
+  <div class="two-col">
+
+    <!-- RECENT UPDATES ACROSS THIS SECTION -->
+    <div class="ann" style="outline-color:#0078d4; margin-bottom:20px;">
+      <span class="lbl" style="background:#0078d4;">News Web Part (list layout) or Highlighted Content Web Part filtered by "Modified date" — shows recently changed T4 pages within this domain</span>
+      <div class="wp">
+        <div class="wp-header"><span class="wp-title">🕐 Recent Policy Updates</span><span class="wp-see-all">See all changes →</span></div>
+        <div class="wp-body" style="padding-top:4px;">
+          <div class="update-item">
+            <div class="update-dot" style="background:#0078d4;"></div>
+            <div>
+              <div class="update-text"><span class="cat" style="color:#0078d4;">Data &amp; Security</span> <span class="update-badge badge-updated">Updated</span></div>
+              <div class="update-text"><strong>Data Privacy Policy v3.1</strong> — Retention schedules revised and BYOD clause added.</div>
+              <div class="update-meta">Sarah Mitchell · 15 Mar 2026</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <div class="update-dot" style="background:#107c41;"></div>
+            <div>
+              <div class="update-text"><span class="cat" style="color:#107c41;">HR Policies</span> <span class="update-badge badge-new">New</span></div>
+              <div class="update-text"><strong>Hybrid Working Agreement Policy</strong> — New policy published covering office attendance expectations.</div>
+              <div class="update-meta">HR Team · 10 Mar 2026</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <div class="update-dot" style="background:#a37700;"></div>
+            <div>
+              <div class="update-text"><span class="cat" style="color:#a37700;">Compliance &amp; Risk</span> <span class="update-badge badge-review">Under Review</span></div>
+              <div class="update-text"><strong>Anti-Bribery &amp; Corruption Policy</strong> — Annual review in progress. Current version remains active.</div>
+              <div class="update-meta">Legal Team · 5 Mar 2026</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <div class="update-dot" style="background:#0078d4;"></div>
+            <div>
+              <div class="update-text"><span class="cat" style="color:#5c2d91;">Corporate Policies</span> <span class="update-badge badge-updated">Updated</span></div>
+              <div class="update-text"><strong>Code of Conduct v2.1</strong> — Minor wording updates; social media guidance expanded in Section 4.</div>
+              <div class="update-meta">CEO Office · 28 Feb 2026</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <div class="update-dot" style="background:#107c41;"></div>
+            <div>
+              <div class="update-text"><span class="cat" style="color:#008272;">Data &amp; Security</span> <span class="update-badge badge-new">New</span></div>
+              <div class="update-text"><strong>Artificial Intelligence Usage Policy</strong> — First version published covering approved AI tools and prohibited uses.</div>
+              <div class="update-meta">IT &amp; Legal · 20 Feb 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div>
+
+      <!-- SECTION OWNER -->
+      <div class="ann slate">
+        <span class="lbl" style="background:#605e5c;">People Web Part — Section owner and designated contacts · Azure AD profiles</span>
+        <div class="widget">
+          <div class="widget-header">📋 Section Owner</div>
+          <div class="widget-body">
+            <div class="owner-row">
+              <div class="ow-av" style="background:#107c41;">SM</div>
+              <div><div class="ow-name">Sarah Mitchell</div><div class="ow-role">Head of HR · Domain Lead</div></div>
+            </div>
+            <div class="owner-row">
+              <div class="ow-av" style="background:#5c2d91; width:32px; height:32px; font-size:11px;">LK</div>
+              <div><div class="ow-name" style="font-size:12px;">Lisa King</div><div class="ow-role">IT &amp; Data Protection Officer</div></div>
+            </div>
+            <div class="ow-btns">
+              <button class="ow-btn">💬 Chat</button>
+              <button class="ow-btn">✉ Email</button>
+              <button class="ow-btn">❓ Ask</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION QUICK LINKS -->
+      <div class="ann indigo" style="margin-top:12px;">
+        <span class="lbl" style="background:#4f6bed;">Quick Links Web Part — Compact list · Key actions and tools within this section</span>
+        <div class="widget">
+          <div class="widget-header">⚡ Section Actions</div>
+          <div class="widget-body" style="padding-top:4px; padding-bottom:4px;">
+            <div class="ql-item"><span class="ql-item-icon">📋</span> All Policies A–Z</div>
+            <div class="ql-item"><span class="ql-item-icon">⬇</span> Download Policy Pack (PDF)</div>
+            <div class="ql-item"><span class="ql-item-icon">📝</span> Request a Policy Change</div>
+            <div class="ql-item"><span class="ql-item-icon">✅</span> Compliance Acknowledgement Tracker</div>
+            <div class="ql-item"><span class="ql-item-icon">📅</span> Policy Review Calendar</div>
+            <div class="ql-item"><span class="ql-item-icon">🆘</span> Report a Policy Concern</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE ACTIVITY -->
+      <div class="ann slate" style="margin-top:12px;">
+        <span class="lbl" style="background:#605e5c;">Page Activity Web Part — Auto-populated recent edits in this section</span>
+        <div class="widget">
+          <div class="widget-header">🕐 Recent Activity</div>
+          <div class="widget-body" style="padding-top:4px; padding-bottom:4px;">
+            <div class="act-item">
+              <div class="act-av" style="background:#0078d4;">SM</div>
+              <div><div class="act-text"><span>Sarah M.</span> published <span>Hybrid Working Policy</span></div><div class="act-time">Today 10:20 AM</div></div>
+            </div>
+            <div class="act-item">
+              <div class="act-av" style="background:#5c2d91;">LK</div>
+              <div><div class="act-text"><span>Lisa K.</span> edited <span>Data Privacy Policy</span></div><div class="act-time">Yesterday 4:15 PM</div></div>
+            </div>
+            <div class="act-item">
+              <div class="act-av" style="background:#a37700;">JP</div>
+              <div><div class="act-text"><span>James P.</span> uploaded 3 documents</div><div class="act-time">Mar 18, 2:30 PM</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BUILDER NOTES -->
+  <div class="notes">
+    <h2>📋 T2 Builder Notes — How to Recreate This in SharePoint</h2>
+    <ul>
+      <li><strong>Page type:</strong> Build this as a modern SharePoint page under the T1 master hub site. Treat it as a section page, not a separate site experience.</li>
+      <li><strong>Purpose of T2:</strong> This is a <em>navigation layer</em>, not a content-heavy destination. Its primary job is routing users down to T3 category pages.</li>
+      <li><strong>T3 Category Cards:</strong> Use the <em>Quick Links</em> web part (Tiles layout with descriptions enabled) — one tile per T3 category page. Or use a <em>Card Layout</em> section with individual Image + Text combinations per card.</li>
+      <li><strong>Card count badges:</strong> These are manual (set in the Quick Links description field) or use a <em>Highlighted Content</em> web part count. They can also be driven from a metadata list.</li>
+      <li><strong>Featured Policies strip:</strong> Use <em>Highlighted Content</em> web part — filter on a "Featured" metadata column = Yes, scoped to this page context.</li>
+      <li><strong>Recent Updates list:</strong> Use <em>News</em> web part (List layout) or <em>Document Library</em> web part filtered by Modified date — showing newest T4 content pages first.</li>
+      <li><strong>Section stats bar:</strong> Build with a <em>Text</em> web part custom table or a <em>List</em> web part count driven by your policy register metadata.</li>
+      <li><strong>Page Activity:</strong> Add activity/updates web parts to show recent edits and publish events related to this section.</li>
+      <li><strong>Navigation pattern:</strong> Keep this page clean and routing-first. Surface T3 category links both in cards and optional quick link lists.</li>
+    </ul>
+  </div>
+
+</div><!-- /canvas -->
+
+<script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var t2 = params.get("t2");
+    if (!t2) return;
+
+    document.title = "T2 — " + t2 + " Section Page · SharePoint Wireframe";
+
+    var siteName = document.querySelector(".site-name");
+    if (siteName) siteName.textContent = "📋 " + t2;
+
+    var h1 = document.querySelector(".header-text h1");
+    if (h1) h1.textContent = t2;
+
+    var crumbT2 = document.getElementById("crumb-t2");
+    if (crumbT2) crumbT2.textContent = t2;
+  })();
+</script>
+</body>
+</html>

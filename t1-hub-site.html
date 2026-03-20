@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T1 Master Hub Site - Knowledge Hub</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #f3f2f1;
+      color: #323130;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .suite-bar {
+      height: 54px;
+      background: #1f66af;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      border-bottom: 1px solid rgba(255,255,255,.2);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .suite-left { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, #ff8a00, #d95000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .site-name { font-size: 30px; font-weight: 600; letter-spacing: .2px; }
+    .suite-right { display: flex; align-items: center; gap: 14px; font-size: 12px; color: rgba(255,255,255,.9); }
+
+    .command-bar {
+      height: 36px;
+      background: #fff;
+      border-bottom: 1px solid #e1dfdd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      position: sticky;
+      top: 54px;
+      z-index: 190;
+    }
+    .cmd-left, .cmd-right { display: flex; align-items: center; gap: 12px; }
+    .cmd-item {
+      color: #605e5c;
+      font-size: 12px;
+      padding: 5px 7px;
+      border-radius: 3px;
+      cursor: default;
+    }
+    .cmd-item:hover { background: #f3f2f1; }
+
+    .app {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      min-height: calc(100vh - 90px);
+    }
+    .sidebar {
+      background: #faf9f8;
+      border-right: 1px solid #edebe9;
+      overflow-y: auto;
+      padding-bottom: 16px;
+    }
+    .side-head {
+      padding: 10px 14px;
+      font-size: 11px;
+      color: #8a8886;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      border-bottom: 1px solid #f3f2f1;
+      font-weight: 700;
+    }
+    .side-link {
+      display: block;
+      text-decoration: none;
+      color: #323130;
+      padding: 9px 14px;
+      font-size: 13px;
+      border-left: 3px solid transparent;
+    }
+    .side-link:hover { background: #f3f2f1; }
+    .side-link.active {
+      border-left-color: #1f66af;
+      color: #1f66af;
+      background: #eef5fd;
+      font-weight: 600;
+    }
+    details.side-group { border-top: 1px solid #f3f2f1; }
+    details.side-group summary {
+      list-style: none;
+      padding: 9px 14px;
+      font-size: 13px;
+      color: #323130;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    details.side-group summary::-webkit-details-marker { display: none; }
+    details.side-group[open] summary { background: #f7f6f5; }
+    .caret { font-size: 10px; color: #8a8886; }
+    details.side-group[open] .caret { transform: rotate(90deg); }
+    .t3-links a {
+      display: block;
+      text-decoration: none;
+      font-size: 12px;
+      color: #605e5c;
+      padding: 7px 14px 7px 26px;
+      border-left: 3px solid transparent;
+    }
+    .t3-links a:hover { background: #f3f2f1; color: #1f66af; }
+
+    .main { background: #f3f2f1; }
+    .page-header {
+      background: #fff;
+      border-bottom: 1px solid #edebe9;
+      padding: 18px 22px 16px;
+    }
+    .trail {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #605e5c;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .trail a { color: #1f66af; text-decoration: none; }
+    .trail a:hover { text-decoration: underline; }
+    .page-header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .page-header p {
+      font-size: 14px;
+      color: #605e5c;
+      max-width: 900px;
+    }
+
+    .canvas {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 18px 20px 36px;
+    }
+    .panel {
+      background: #fff;
+      border: 1px solid #edebe9;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .panel-head {
+      padding: 10px 12px;
+      border-bottom: 1px solid #f3f2f1;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: #605e5c;
+      font-weight: 700;
+      background: #faf9f8;
+    }
+    .panel-body { padding: 12px; }
+
+    .hero-webpart {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 12px;
+    }
+    .hero-feature {
+      min-height: 250px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #1f66af, #315f86);
+      color: #fff;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .hero-feature .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 8px;
+      color: rgba(255,255,255,.82);
+    }
+    .hero-feature h2 {
+      font-size: 28px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .hero-feature p {
+      font-size: 13px;
+      color: rgba(255,255,255,.9);
+      margin-bottom: 12px;
+      max-width: 560px;
+    }
+    .hero-feature a {
+      display: inline-block;
+      text-decoration: none;
+      background: #fff;
+      color: #1f66af;
+      padding: 8px 12px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 600;
+      width: fit-content;
+    }
+    .hero-side {
+      display: grid;
+      gap: 12px;
+    }
+    .mini-feature {
+      border: 1px solid #edebe9;
+      border-radius: 4px;
+      padding: 12px;
+      background: #fff;
+      min-height: 119px;
+    }
+    .mini-feature strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+    .mini-feature p {
+      font-size: 12px;
+      color: #605e5c;
+      margin-bottom: 8px;
+    }
+    .mini-feature span {
+      font-size: 11px;
+      color: #1f66af;
+      font-weight: 600;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .quick-tile {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid #edebe9;
+      border-radius: 4px;
+      padding: 12px;
+      background: #fff;
+      min-height: 118px;
+    }
+    .quick-tile:hover { border-color: #1f66af; }
+    .quick-tile h3 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #323130;
+    }
+    .quick-tile p {
+      font-size: 12px;
+      color: #605e5c;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .quick-tile span {
+      font-size: 11px;
+      color: #1f66af;
+      font-weight: 600;
+    }
+
+    .news-layout {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 12px;
+    }
+    .news-lead {
+      min-height: 200px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #4c647e, #6c86a5);
+      color: #fff;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .news-lead strong {
+      font-size: 22px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .news-lead p {
+      font-size: 13px;
+      color: rgba(255,255,255,.9);
+      margin-bottom: 8px;
+    }
+    .news-lead span { font-size: 11px; color: rgba(255,255,255,.82); }
+    .news-list { display: grid; gap: 10px; }
+    .news-item {
+      border: 1px solid #edebe9;
+      border-radius: 4px;
+      padding: 12px;
+      background: #fff;
+    }
+    .news-item strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .news-item p {
+      font-size: 12px;
+      color: #605e5c;
+      margin-bottom: 4px;
+    }
+    .news-item span { font-size: 11px; color: #8a8886; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 16px;
+    }
+    .list-grid { display: grid; gap: 8px; }
+    .list-card {
+      border: 1px solid #edebe9;
+      border-radius: 4px;
+      padding: 10px;
+      background: #fff;
+    }
+    .list-card strong {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+    .list-card span {
+      font-size: 12px;
+      color: #605e5c;
+    }
+    .people-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid #f3f2f1;
+    }
+    .people-row:last-child { border-bottom: none; }
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .person-name { font-size: 13px; font-weight: 600; }
+    .person-role { font-size: 11px; color: #605e5c; }
+
+    .notes {
+      background: #fff9f0;
+      border: 1px solid #ffaa44;
+      border-radius: 4px;
+      padding: 15px 18px;
+      margin-top: 20px;
+    }
+    .notes h2 {
+      font-size: 13px;
+      color: #a37700;
+      margin-bottom: 8px;
+    }
+    .notes li {
+      font-size: 12px;
+      color: #605e5c;
+      line-height: 1.5;
+      margin-left: 16px;
+    }
+
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 230px 1fr; }
+      .hero-webpart,
+      .three-col,
+      .news-layout,
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 800px) {
+      .command-bar { display: none; }
+      .app { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid #edebe9; }
+    }
+  </style>
+</head>
+<body>
+  <header class="suite-bar">
+    <div class="suite-left">
+      <div class="logo">S</div>
+      <div class="site-name">Knowledge Hub</div>
+    </div>
+    <div class="suite-right">
+      <span>Master hub site</span>
+      <span>Following</span>
+      <span>7 members</span>
+    </div>
+  </header>
+
+  <div class="command-bar">
+    <div class="cmd-left">
+      <span class="cmd-item">Home</span>
+      <span class="cmd-item">+ New</span>
+      <span class="cmd-item">Page details</span>
+      <span class="cmd-item">Preview</span>
+      <span class="cmd-item">Analytics</span>
+    </div>
+    <div class="cmd-right">
+      <span class="cmd-item">Published 3/20/2026</span>
+      <span class="cmd-item">Share</span>
+      <span class="cmd-item">Edit</span>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="side-head">T1 Hub Navigation</div>
+      <a class="side-link active" href="t1-hub-site.html">Knowledge Hub Home</a>
+
+      <div class="side-head">T2 Page Sections</div>
+      <details class="side-group" open>
+        <summary>Policies &amp; Governance <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a href="t3-category-page.html?t2=Policies%20%26%20Governance&amp;t3=Corporate%20Policies">Corporate Policies</a>
+          <a href="t3-category-page.html?t2=Policies%20%26%20Governance&amp;t3=Compliance%20%26%20Risk">Compliance &amp; Risk</a>
+          <a href="t3-category-page.html?t2=Policies%20%26%20Governance&amp;t3=Data%20%26%20Security">Data &amp; Security</a>
+        </div>
+      </details>
+      <details class="side-group">
+        <summary>Processes &amp; Procedures <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a href="t3-category-page.html?t2=Processes%20%26%20Procedures&amp;t3=Operational%20Processes">Operational Processes</a>
+          <a href="t3-category-page.html?t2=Processes%20%26%20Procedures&amp;t3=HR%20Processes">HR Processes</a>
+          <a href="t3-category-page.html?t2=Processes%20%26%20Procedures&amp;t3=Finance%20Processes">Finance Processes</a>
+        </div>
+      </details>
+      <details class="side-group">
+        <summary>Tools &amp; Templates <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a href="t3-category-page.html?t2=Tools%20%26%20Templates&amp;t3=Document%20Templates">Document Templates</a>
+          <a href="t3-category-page.html?t2=Tools%20%26%20Templates&amp;t3=Forms%20%26%20Checklists">Forms &amp; Checklists</a>
+          <a href="t3-category-page.html?t2=Tools%20%26%20Templates&amp;t3=Software%20Tools">Software Tools</a>
+        </div>
+      </details>
+      <details class="side-group">
+        <summary>Projects &amp; Initiatives <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a href="t3-category-page.html?t2=Projects%20%26%20Initiatives&amp;t3=Active%20Projects">Active Projects</a>
+          <a href="t3-category-page.html?t2=Projects%20%26%20Initiatives&amp;t3=Completed%20Projects">Completed Projects</a>
+          <a href="t3-category-page.html?t2=Projects%20%26%20Initiatives&amp;t3=Change%20Initiatives">Change Initiatives</a>
+        </div>
+      </details>
+      <details class="side-group">
+        <summary>Learning &amp; Development <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a href="t3-category-page.html?t2=Learning%20%26%20Development&amp;t3=Training%20Materials">Training Materials</a>
+          <a href="t3-category-page.html?t2=Learning%20%26%20Development&amp;t3=How-To%20Guides">How-To Guides</a>
+          <a href="t3-category-page.html?t2=Learning%20%26%20Development&amp;t3=Best%20Practices">Best Practices</a>
+        </div>
+      </details>
+      <details class="side-group">
+        <summary>Community &amp; Support <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a href="t3-category-page.html?t2=Community%20%26%20Support&amp;t3=FAQs">FAQs</a>
+          <a href="t3-category-page.html?t2=Community%20%26%20Support&amp;t3=Support%20Contacts">Support Contacts</a>
+          <a href="t3-category-page.html?t2=Community%20%26%20Support&amp;t3=User%20Groups">User Groups</a>
+        </div>
+      </details>
+
+      <div class="side-head">Page Templates</div>
+      <a class="side-link" href="t2-domain-page.html">Open T2 Section Page Template</a>
+      <a class="side-link" href="t3-category-page.html">Open T3 Category Page Template</a>
+      <a class="side-link" href="t4-leaf-content.html">Open T4 Content Page Template</a>
+      <a class="side-link" href="knowledge-hub-test-site.html">Open Blueprint Map</a>
+    </aside>
+
+    <main class="main">
+      <section class="page-header">
+        <div class="trail">
+          <a href="knowledge-hub-test-site.html">Home</a>
+          <span>›</span>
+          <span>Knowledge Hub</span>
+        </div>
+        <h1>Knowledge Hub</h1>
+        <p>Master hub site using standard SharePoint page layouts and normal web parts only. This homepage is intended to be built with out-of-box Hero, Quick Links, News, Highlighted Content, People, and Text web parts.</p>
+      </section>
+
+      <section class="canvas">
+        <article class="panel">
+          <div class="panel-head">Hero Web Part</div>
+          <div class="panel-body">
+            <div class="hero-webpart">
+              <div class="hero-feature">
+                <div class="label">Primary Hero Tile</div>
+                <h2>Start from the right knowledge section</h2>
+                <p>Use a standard Hero web part to point users into the highest-value section pages and category pages without building custom functionality.</p>
+                <a href="t2-domain-page.html">Browse section pages</a>
+              </div>
+              <div class="hero-side">
+                <div class="mini-feature">
+                  <strong>Featured policy area</strong>
+                  <p>Use a smaller Hero tile for Corporate Policies or Data &amp; Security.</p>
+                  <span>Hero tile 2</span>
+                </div>
+                <div class="mini-feature">
+                  <strong>Featured process area</strong>
+                  <p>Use another tile for onboarding, workflow, or templates.</p>
+                  <span>Hero tile 3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">Quick Links Web Part</div>
+          <div class="panel-body">
+            <div class="three-col">
+              <a class="quick-tile" href="t2-domain-page.html?t2=Policies%20%26%20Governance">
+                <h3>Policies &amp; Governance</h3>
+                <p>Route users into policy, compliance, and governance content.</p>
+                <span>Quick Links card</span>
+              </a>
+              <a class="quick-tile" href="t2-domain-page.html?t2=Processes%20%26%20Procedures">
+                <h3>Processes &amp; Procedures</h3>
+                <p>Route users into operational, HR, and finance processes.</p>
+                <span>Quick Links card</span>
+              </a>
+              <a class="quick-tile" href="t2-domain-page.html?t2=Tools%20%26%20Templates">
+                <h3>Tools &amp; Templates</h3>
+                <p>Route users into forms, templates, and reusable assets.</p>
+                <span>Quick Links card</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">News Web Part</div>
+          <div class="panel-body">
+            <div class="news-layout">
+              <div class="news-lead">
+                <strong>Knowledge updates and featured announcements</strong>
+                <p>Use the News web part to publish important updates from the hub homepage.</p>
+                <span>Lead news card</span>
+              </div>
+              <div class="news-list">
+                <div class="news-item">
+                  <strong>Remote Work Policy updated</strong>
+                  <p>Highlight important governance changes or content reviews.</p>
+                  <span>News list item</span>
+                </div>
+                <div class="news-item">
+                  <strong>Onboarding workflow refreshed</strong>
+                  <p>Use standard News layout or list layout for operational updates.</p>
+                  <span>News list item</span>
+                </div>
+                <div class="news-item">
+                  <strong>Template pack expanded</strong>
+                  <p>Surface new templates and process changes without custom code.</p>
+                  <span>News list item</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="two-col">
+          <div>
+            <article class="panel">
+              <div class="panel-head">Highlighted Content Web Part</div>
+              <div class="panel-body">
+                <div class="list-grid">
+                  <div class="list-card"><strong>Code of Conduct</strong><span>Featured T4 content page surfaced using Highlighted Content.</span></div>
+                  <div class="list-card"><strong>Data Privacy Policy</strong><span>Featured item filtered by metadata and promoted on the homepage.</span></div>
+                  <div class="list-card"><strong>Remote Work Policy</strong><span>High-use page highlighted from the policies category.</span></div>
+                  <div class="list-card"><strong>Project Intake Template</strong><span>Template surfaced from Tools &amp; Templates.</span></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">Text Web Part / Intro Area</div>
+              <div class="panel-body">
+                <div class="list-grid">
+                  <div class="list-card"><strong>How this hub should work</strong><span>T1 is the master hub site, T2 pages group knowledge by section, T3 pages route by category, and T4 pages hold final content.</span></div>
+                  <div class="list-card"><strong>Build approach</strong><span>Use standard SharePoint sections and web parts only. No custom-coded search, cards, or dynamic components are assumed.</span></div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div>
+            <article class="panel">
+              <div class="panel-head">People Web Part</div>
+              <div class="panel-body">
+                <div class="people-row">
+                  <div class="avatar" style="background:#1f66af;">KM</div>
+                  <div><div class="person-name">Knowledge Manager</div><div class="person-role">Hub owner</div></div>
+                </div>
+                <div class="people-row">
+                  <div class="avatar" style="background:#107c41;">HR</div>
+                  <div><div class="person-name">HR Lead</div><div class="person-role">Policy owner</div></div>
+                </div>
+                <div class="people-row">
+                  <div class="avatar" style="background:#5c2d91;">IT</div>
+                  <div><div class="person-name">SharePoint Admin</div><div class="person-role">Platform support</div></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">Quick Links / Support</div>
+              <div class="panel-body">
+                <div class="list-grid">
+                  <div class="list-card"><strong>Submit a content request</strong><span>Quick Links entry</span></div>
+                  <div class="list-card"><strong>Report outdated content</strong><span>Quick Links entry</span></div>
+                  <div class="list-card"><strong>Open the blueprint map</strong><span>Reference/admin link</span></div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="notes">
+          <h2>T1 Build Notes</h2>
+          <ul>
+            <li>Use a normal modern SharePoint page with standard sections only.</li>
+            <li>Recommended out-of-box web parts for T1: Hero, Quick Links, News, Highlighted Content, People, and Text.</li>
+            <li>Keep the homepage focused on discovery and routing, not custom interaction patterns.</li>
+            <li>The left navigation and top chrome are shown here as the SharePoint frame, while the page body stays web-part driven.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

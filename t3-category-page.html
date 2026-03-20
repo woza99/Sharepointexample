@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T3 Category Page - Corporate Policies</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #f3f2f1;
+      color: #323130;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .suite-bar {
+      height: 54px;
+      background: #1f66af;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      border-bottom: 1px solid rgba(255,255,255,.2);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .suite-left { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, #ff8a00, #d95000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .site-name { font-size: 30px; font-weight: 600; letter-spacing: .2px; }
+    .suite-right { display: flex; align-items: center; gap: 14px; font-size: 12px; color: rgba(255,255,255,.9); }
+    .command-bar {
+      height: 36px;
+      background: #fff;
+      border-bottom: 1px solid #e1dfdd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      position: sticky;
+      top: 54px;
+      z-index: 190;
+    }
+    .cmd-left, .cmd-right { display: flex; align-items: center; gap: 12px; }
+    .cmd-item {
+      color: #605e5c;
+      font-size: 12px;
+      padding: 5px 7px;
+      border-radius: 3px;
+      cursor: default;
+    }
+    .cmd-item:hover { background: #f3f2f1; }
+    .app {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      min-height: calc(100vh - 90px);
+    }
+    .sidebar {
+      background: #faf9f8;
+      border-right: 1px solid #edebe9;
+      overflow-y: auto;
+      padding-bottom: 16px;
+    }
+    .side-head {
+      padding: 10px 14px;
+      font-size: 11px;
+      color: #8a8886;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      border-bottom: 1px solid #f3f2f1;
+      font-weight: 700;
+    }
+    .side-link {
+      display: block;
+      text-decoration: none;
+      color: #323130;
+      padding: 9px 14px;
+      font-size: 13px;
+      border-left: 3px solid transparent;
+    }
+    .side-link:hover { background: #f3f2f1; }
+    .side-link.active {
+      border-left-color: #1f66af;
+      color: #1f66af;
+      background: #eef5fd;
+      font-weight: 600;
+    }
+    details.side-group { border-top: 1px solid #f3f2f1; }
+    details.side-group summary {
+      list-style: none;
+      padding: 9px 14px;
+      font-size: 13px;
+      color: #323130;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    details.side-group summary::-webkit-details-marker { display: none; }
+    details.side-group[open] summary { background: #f7f6f5; }
+    .caret { font-size: 10px; color: #8a8886; }
+    details.side-group[open] .caret { transform: rotate(90deg); }
+    .t3-links a {
+      display: block;
+      text-decoration: none;
+      font-size: 12px;
+      color: #605e5c;
+      padding: 7px 14px 7px 26px;
+      border-left: 3px solid transparent;
+    }
+    .t3-links a:hover,
+    .t3-links a.active {
+      background: #f3f2f1;
+      color: #1f66af;
+      border-left-color: #1f66af;
+    }
+    .main {
+      overflow-x: hidden;
+      background: #f3f2f1;
+    }
+    .page-header {
+      background: linear-gradient(135deg, #324b6b 0%, #4d3c7a 55%, #6c56a8 100%);
+      color: #fff;
+      padding: 24px 24px 26px;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+    }
+    .page-header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .trail {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,.76);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .trail a { color: rgba(255,255,255,.9); text-decoration: none; }
+    .trail a:hover { text-decoration: underline; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .hero-copy h1 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .hero-copy p {
+      font-size: 15px;
+      color: rgba(255,255,255,.92);
+      max-width: 760px;
+      margin-bottom: 14px;
+    }
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pill {
+      border: 1px solid rgba(255,255,255,.35);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+    }
+    .hero-summary {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 4px;
+      padding: 14px;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .summary-card {
+      background: rgba(255,255,255,.08);
+      border-radius: 3px;
+      padding: 10px;
+    }
+    .summary-num { font-size: 21px; font-weight: 700; }
+    .summary-label { font-size: 11px; color: rgba(255,255,255,.84); margin-top: 3px; }
+    .content {
+      padding: 20px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .lead-grid {
+      display: grid;
+      grid-template-columns: 1.55fr .85fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .panel {
+      background: #fff;
+      border: 1px solid #edebe9;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .panel-head {
+      padding: 10px 12px;
+      border-bottom: 1px solid #f3f2f1;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: #605e5c;
+      font-weight: 700;
+      background: #faf9f8;
+    }
+    .panel-body { padding: 12px; }
+    .category-intro {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 16px;
+      align-items: start;
+    }
+    .category-intro p { color: #605e5c; font-size: 13px; margin-bottom: 10px; }
+    .mini-actions { display: grid; gap: 8px; }
+    .mini-actions a {
+      display: block;
+      text-decoration: none;
+      border: 1px solid #edebe9;
+      border-radius: 3px;
+      padding: 9px 10px;
+      color: #323130;
+      font-size: 12px;
+      background: #fff;
+    }
+    .mini-actions a:hover { border-color: #1f66af; color: #1f66af; }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .content-card {
+      border: 1px solid #edebe9;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #fff;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .content-card:hover {
+      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+      transform: translateY(-1px);
+    }
+    .content-band {
+      height: 76px;
+      padding: 12px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      color: #fff;
+    }
+    .content-type {
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(0,0,0,.22);
+      border-radius: 10px;
+      padding: 3px 8px;
+    }
+    .content-body { padding: 12px; }
+    .content-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .content-desc { font-size: 12px; color: #605e5c; line-height: 1.5; margin-bottom: 10px; }
+    .content-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: #8a8886;
+      padding-top: 8px;
+      border-top: 1px solid #f3f2f1;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 16px;
+    }
+    .update-item {
+      display: flex;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #f3f2f1;
+    }
+    .update-item:last-child { border-bottom: none; }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #6c56a8;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .update-item strong { font-size: 13px; }
+    .update-item p { font-size: 12px; color: #605e5c; margin-top: 3px; }
+    .update-item span { font-size: 11px; color: #8a8886; display: block; margin-top: 4px; }
+    .info-list { display: grid; gap: 8px; }
+    .info-row {
+      border: 1px solid #edebe9;
+      border-radius: 3px;
+      padding: 9px 10px;
+      background: #fff;
+    }
+    .info-row strong { display: block; font-size: 12px; margin-bottom: 3px; }
+    .info-row span { font-size: 12px; color: #605e5c; }
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 230px 1fr; }
+      .hero-grid,
+      .lead-grid,
+      .two-col,
+      .category-intro,
+      .card-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 800px) {
+      .command-bar { display: none; }
+      .app { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid #edebe9; }
+    }
+  </style>
+</head>
+<body>
+  <header class="suite-bar">
+    <div class="suite-left">
+      <div class="logo">S</div>
+      <div class="site-name">Knowledge Hub</div>
+    </div>
+    <div class="suite-right">
+      <span>Master hub site</span>
+      <span>Following</span>
+      <span>7 members</span>
+    </div>
+  </header>
+
+  <div class="command-bar">
+    <div class="cmd-left">
+      <span class="cmd-item">Home</span>
+      <span class="cmd-item">+ New</span>
+      <span class="cmd-item">Page details</span>
+      <span class="cmd-item">Preview</span>
+      <span class="cmd-item">Analytics</span>
+    </div>
+    <div class="cmd-right">
+      <span class="cmd-item">Published 3/20/2026</span>
+      <span class="cmd-item">Share</span>
+      <span class="cmd-item">Edit</span>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="side-head">T1 Hub Navigation</div>
+      <a class="side-link" href="t1-hub-site.html">Knowledge Hub Home</a>
+
+      <div class="side-head">T2 Page Sections</div>
+
+      <details class="side-group" data-t2="Policies & Governance" open>
+        <summary>Policies &amp; Governance <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a data-t2="Policies & Governance" data-t3="Corporate Policies" href="t3-category-page.html?t2=Policies%20%26%20Governance&amp;t3=Corporate%20Policies">Corporate Policies</a>
+          <a data-t2="Policies & Governance" data-t3="Compliance & Risk" href="t3-category-page.html?t2=Policies%20%26%20Governance&amp;t3=Compliance%20%26%20Risk">Compliance &amp; Risk</a>
+          <a data-t2="Policies & Governance" data-t3="Data & Security" href="t3-category-page.html?t2=Policies%20%26%20Governance&amp;t3=Data%20%26%20Security">Data &amp; Security</a>
+        </div>
+      </details>
+
+      <details class="side-group" data-t2="Processes & Procedures">
+        <summary>Processes &amp; Procedures <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a data-t2="Processes & Procedures" data-t3="Operational Processes" href="t3-category-page.html?t2=Processes%20%26%20Procedures&amp;t3=Operational%20Processes">Operational Processes</a>
+          <a data-t2="Processes & Procedures" data-t3="HR Processes" href="t3-category-page.html?t2=Processes%20%26%20Procedures&amp;t3=HR%20Processes">HR Processes</a>
+          <a data-t2="Processes & Procedures" data-t3="Finance Processes" href="t3-category-page.html?t2=Processes%20%26%20Procedures&amp;t3=Finance%20Processes">Finance Processes</a>
+        </div>
+      </details>
+
+      <details class="side-group" data-t2="Tools & Templates">
+        <summary>Tools &amp; Templates <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a data-t2="Tools & Templates" data-t3="Document Templates" href="t3-category-page.html?t2=Tools%20%26%20Templates&amp;t3=Document%20Templates">Document Templates</a>
+          <a data-t2="Tools & Templates" data-t3="Forms & Checklists" href="t3-category-page.html?t2=Tools%20%26%20Templates&amp;t3=Forms%20%26%20Checklists">Forms &amp; Checklists</a>
+          <a data-t2="Tools & Templates" data-t3="Software Tools" href="t3-category-page.html?t2=Tools%20%26%20Templates&amp;t3=Software%20Tools">Software Tools</a>
+        </div>
+      </details>
+
+      <details class="side-group" data-t2="Projects & Initiatives">
+        <summary>Projects &amp; Initiatives <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a data-t2="Projects & Initiatives" data-t3="Active Projects" href="t3-category-page.html?t2=Projects%20%26%20Initiatives&amp;t3=Active%20Projects">Active Projects</a>
+          <a data-t2="Projects & Initiatives" data-t3="Completed Projects" href="t3-category-page.html?t2=Projects%20%26%20Initiatives&amp;t3=Completed%20Projects">Completed Projects</a>
+          <a data-t2="Projects & Initiatives" data-t3="Change Initiatives" href="t3-category-page.html?t2=Projects%20%26%20Initiatives&amp;t3=Change%20Initiatives">Change Initiatives</a>
+        </div>
+      </details>
+
+      <details class="side-group" data-t2="Learning & Development">
+        <summary>Learning &amp; Development <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a data-t2="Learning & Development" data-t3="Training Materials" href="t3-category-page.html?t2=Learning%20%26%20Development&amp;t3=Training%20Materials">Training Materials</a>
+          <a data-t2="Learning & Development" data-t3="How-To Guides" href="t3-category-page.html?t2=Learning%20%26%20Development&amp;t3=How-To%20Guides">How-To Guides</a>
+          <a data-t2="Learning & Development" data-t3="Best Practices" href="t3-category-page.html?t2=Learning%20%26%20Development&amp;t3=Best%20Practices">Best Practices</a>
+        </div>
+      </details>
+
+      <details class="side-group" data-t2="Community & Support">
+        <summary>Community &amp; Support <span class="caret">▶</span></summary>
+        <div class="t3-links">
+          <a data-t2="Community & Support" data-t3="FAQs" href="t3-category-page.html?t2=Community%20%26%20Support&amp;t3=FAQs">FAQs</a>
+          <a data-t2="Community & Support" data-t3="Support Contacts" href="t3-category-page.html?t2=Community%20%26%20Support&amp;t3=Support%20Contacts">Support Contacts</a>
+          <a data-t2="Community & Support" data-t3="User Groups" href="t3-category-page.html?t2=Community%20%26%20Support&amp;t3=User%20Groups">User Groups</a>
+        </div>
+      </details>
+
+      <div class="side-head">Page Templates</div>
+      <a class="side-link" href="t2-domain-page.html">Open T2 Section Page Template</a>
+      <a class="side-link active" href="t3-category-page.html">Open T3 Category Page Template</a>
+      <a class="side-link" href="t4-leaf-content.html">Open T4 Content Page Template</a>
+      <a class="side-link" href="knowledge-hub-test-site.html">Open Blueprint Map</a>
+    </aside>
+
+    <main class="main">
+      <section class="page-header">
+        <div class="page-header-inner">
+          <div class="trail">
+            <a href="knowledge-hub-test-site.html">Home</a>
+            <span>›</span>
+            <a href="t1-hub-site.html">Knowledge Hub</a>
+            <span>›</span>
+            <a id="crumb-t2" href="t2-domain-page.html?t2=Policies%20%26%20Governance">Policies &amp; Governance</a>
+            <span>›</span>
+            <span id="crumb-t3">Corporate Policies</span>
+          </div>
+
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <h1 id="page-title">Corporate Policies</h1>
+              <p id="page-desc">This T3 category page groups related T4 content pages so users can scan, compare, and open the exact policy they need without browsing a separate site structure.</p>
+              <div class="pills">
+                <span class="pill">T3 Category Page</span>
+                <span class="pill" id="pill-t2">Policies &amp; Governance</span>
+                <span class="pill" id="pill-count">3 Content Pages</span>
+              </div>
+            </div>
+
+            <div class="hero-summary">
+              <div class="summary-grid">
+                <div class="summary-card">
+                  <div class="summary-num">3</div>
+                  <div class="summary-label">Published pages</div>
+                </div>
+                <div class="summary-card">
+                  <div class="summary-num">2</div>
+                  <div class="summary-label">Updated this month</div>
+                </div>
+                <div class="summary-card">
+                  <div class="summary-num">1</div>
+                  <div class="summary-label">Owner group</div>
+                </div>
+                <div class="summary-card">
+                  <div class="summary-num">100%</div>
+                  <div class="summary-label">Tagged and governed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content">
+        <div class="lead-grid">
+          <article class="panel">
+            <div class="panel-head">Category Purpose</div>
+            <div class="panel-body">
+              <div class="category-intro">
+                <div>
+                  <p>T3 pages should work as a focused routing layer. In SharePoint terms, this is a modern page with a small number of clearly-scannable web parts, not a second site home page.</p>
+                  <p>For this category, the primary experience is a card list of T4 content pages, supported by lightweight metadata, related links, and change history.</p>
+                </div>
+                <div class="mini-actions">
+                  <a href="#content-pages">Jump to content pages</a>
+                  <a href="#recent-updates">Review recent updates</a>
+                  <a href="#category-info">Open category metadata</a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel" id="category-info">
+            <div class="panel-head">Category Metadata</div>
+            <div class="panel-body">
+              <div class="info-list">
+                <div class="info-row"><strong>Page role</strong><span>Routing page between T2 section pages and T4 content pages</span></div>
+                <div class="info-row"><strong>Audience</strong><span>All staff, policy owners, compliance reviewers</span></div>
+                <div class="info-row"><strong>Default web parts</strong><span>Quick Links cards, Text, People, Highlighted Content</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <article class="panel" id="content-pages" style="margin-bottom:16px;">
+          <div class="panel-head">T4 Content Pages</div>
+          <div class="panel-body">
+            <div class="card-grid">
+              <a class="content-card" href="t4-leaf-content.html?t2=Policies%20%26%20Governance&amp;t3=Corporate%20Policies&amp;t4=Code%20of%20Conduct">
+                <div class="content-band" style="background:linear-gradient(135deg,#1f66af,#29437a);">
+                  <span>Code of Conduct</span>
+                  <span class="content-type">Policy</span>
+                </div>
+                <div class="content-body">
+                  <div class="content-title">Code of Conduct</div>
+                  <div class="content-desc">Expected standards of behavior, reporting expectations, ethics, conflicts of interest, and disciplinary alignment.</div>
+                  <div class="content-meta"><span>Owner: HR &amp; Legal</span><span>v2.1</span></div>
+                </div>
+              </a>
+
+              <a class="content-card" href="t4-leaf-content.html?t2=Policies%20%26%20Governance&amp;t3=Corporate%20Policies&amp;t4=Remote%20Work%20Policy">
+                <div class="content-band" style="background:linear-gradient(135deg,#916a1b,#6e4f10);">
+                  <span>Remote Work Policy</span>
+                  <span class="content-type">Policy</span>
+                </div>
+                <div class="content-body">
+                  <div class="content-title">Remote Work Policy</div>
+                  <div class="content-desc">Guidance for hybrid working, home office requirements, attendance expectations, and equipment responsibilities.</div>
+                  <div class="content-meta"><span>Owner: HR Operations</span><span>v1.8</span></div>
+                </div>
+              </a>
+
+              <a class="content-card" href="t4-leaf-content.html?t2=Policies%20%26%20Governance&amp;t3=Corporate%20Policies&amp;t4=Data%20Privacy%20Policy">
+                <div class="content-band" style="background:linear-gradient(135deg,#007c78,#005f6d);">
+                  <span>Data Privacy Policy</span>
+                  <span class="content-type">Policy</span>
+                </div>
+                <div class="content-body">
+                  <div class="content-title">Data Privacy Policy</div>
+                  <div class="content-desc">Defines lawful processing, retention, incident response, access rights, and data handling obligations.</div>
+                  <div class="content-meta"><span>Owner: DPO</span><span>v3.1</span></div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <div class="two-col">
+          <article class="panel" id="recent-updates">
+            <div class="panel-head">Recent Updates</div>
+            <div class="panel-body">
+              <div class="update-item">
+                <div class="dot"></div>
+                <div>
+                  <strong>Data Privacy Policy updated</strong>
+                  <p>Retention schedule references and BYOD wording were revised for 2026 guidance.</p>
+                  <span>15 Mar 2026 · Lisa King</span>
+                </div>
+              </div>
+              <div class="update-item">
+                <div class="dot"></div>
+                <div>
+                  <strong>Remote Work Policy updated</strong>
+                  <p>Added office attendance baseline and clarified equipment reimbursement rules.</p>
+                  <span>12 Mar 2026 · Sarah Mitchell</span>
+                </div>
+              </div>
+              <div class="update-item">
+                <div class="dot"></div>
+                <div>
+                  <strong>Code of Conduct refreshed</strong>
+                  <p>Updated policy wording in conflicts and social media sections.</p>
+                  <span>5 Mar 2026 · HR &amp; Legal</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">Support Modules</div>
+            <div class="panel-body">
+              <div class="info-list">
+                <div class="info-row"><strong>Category owner</strong><span>Sarah Mitchell, Head of HR</span></div>
+                <div class="info-row"><strong>Reviewer</strong><span>Lisa King, Data Protection Officer</span></div>
+                <div class="info-row"><strong>Related actions</strong><span>Request amendment, download pack, search within category</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var t2 = params.get("t2") || "Policies & Governance";
+      var t3 = params.get("t3") || "Corporate Policies";
+
+      document.title = "T3 Category Page - " + t3;
+
+      var title = document.getElementById("page-title");
+      if (title) title.textContent = t3;
+
+      var crumbT2 = document.getElementById("crumb-t2");
+      if (crumbT2) {
+        crumbT2.textContent = t2;
+        crumbT2.href = "t2-domain-page.html?t2=" + encodeURIComponent(t2);
+      }
+
+      var crumbT3 = document.getElementById("crumb-t3");
+      if (crumbT3) crumbT3.textContent = t3;
+
+      var pillT2 = document.getElementById("pill-t2");
+      if (pillT2) pillT2.textContent = t2;
+
+      var groups = document.querySelectorAll("details.side-group[data-t2]");
+      groups.forEach(function (group) {
+        group.open = group.getAttribute("data-t2") === t2;
+      });
+
+      var links = document.querySelectorAll(".t3-links a[data-t2][data-t3]");
+      links.forEach(function (link) {
+        if (link.getAttribute("data-t2") === t2 && link.getAttribute("data-t3") === t3) {
+          link.classList.add("active");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
